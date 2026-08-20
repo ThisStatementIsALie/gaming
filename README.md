@@ -1,4 +1,5 @@
 This is the repo I'm using for recreating random games whenever I feel like it.
+
 CURRENTLY FINISHED:
 Minesweeper - Upon entering the png path and a starting space, board.png will update with the minesweeper board state. You can enter a tile with "[x] [y] [1 for Dig, 0 for Flag]" with that exact formatting. There is no win condition. QOL updates will likely be added soon.
 
