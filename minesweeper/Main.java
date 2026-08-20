@@ -1,3 +1,5 @@
+import java.awt.MouseInfo;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -46,13 +48,14 @@ public class Main {
         board.drawBoard(bImage, size);
         fs.updateImage(bImage, file);
         while (true) {
-            board.BoardClick(scan.nextInt()-1, size-scan.nextInt(), scan.nextInt()==1, size, bImage, file);
-            temp = -1;
-            while (temp != 0) {
-                temp = board.spreadAwareness(size);
-            };
-            board.drawBoard(bImage, size);
-            fs.updateImage(bImage, file);
+            System.out.println(MouseInfo.getPointerInfo().getLocation().getX()+" "+MouseInfo.getPointerInfo().getLocation().getY());
+            // board.BoardClick(scan.nextInt()-1, size-scan.nextInt(), scan.nextInt()==1, size, bImage, file);
+            // temp = -1;
+            // while (temp != 0) {
+            //     temp = board.spreadAwareness(size);
+            // };
+            // board.drawBoard(bImage, size);
+            // fs.updateImage(bImage, file);
         }
     }
 }
