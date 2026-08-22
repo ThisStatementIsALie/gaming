@@ -10,11 +10,29 @@
             Enjoy!<br><br>
         </body>
         <div class="snakeText">
-            <a href="https://google.com">> SNAKE</a>
+            <p onclick="setImgSnake()" \>> SNAKE</p>
         </div>
         <br>
         <div class="mineText">
-            <a href="https://google.com">> MINESWEEPER</a>
+            <p onclick="setImgMine()" \>> MINESWEEPER</p>
         </div>
+        <br>
+        <img id="game" src="missingGame.png" width="400px">
+        <br>
+            <button onclick="start()"> PLAY </button>
     </head>
 </html>
+
+<script>
+    var game = 0; // 0  is none, 1 is Mine, 2 is Snake
+
+    function setImgSnake() {
+        document.getElementById("game").src="snake/snakeBoard.png";
+        game = 1;
+    }
+
+    function setImgMine() {
+        document.getElementById("game").src="minesweeper/mineBoard.png";
+        game = 2;
+    }
+</script>
