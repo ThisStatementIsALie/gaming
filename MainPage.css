@@ -1,0 +1,29 @@
+a:link{
+    color: black;
+}
+
+a:hover{
+    color:rgb(0, 194, 16);
+    text-decoration: underline;
+    font-weight: 800;
+}
+
+.snakeText{
+    width: 70px;
+    height: 20px;
+    background-color:greenyellow;
+}
+
+.snakeText:hover{
+    width: 75px;
+}
+
+.mineText{
+    width: 130px;
+    height: 20px;
+    background-color:rgb(150, 61, 61);
+}
+
+.mineText:hover{
+    width: 140px;
+}

@@ -26,22 +26,10 @@ public class Main {
             System.exit(0);
         }
         
-        BufferedImage bImage = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         System.out.println("-----------------\nPaste in the path to 'snakeBoard.png' below.\n-----------------");
-        File file = new File(scannyboi.next());
-        updateImage(bImage, file);
     }
 
     public static void FunTimes() {
         System.out.println("You gave in.\n\nAfter many games or none... you pressed '4'.\n\nH a v e   F u n  .");
-    }
-
-    private static void updateImage(BufferedImage bage, File fil) {
-        try {
-            ImageIO.write(bage, "png", fil);
-        } catch (IOException e) {
-            System.out.println("OH NO!");
-            System.exit(0);
-        }
     }
 }
