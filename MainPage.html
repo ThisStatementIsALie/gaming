@@ -17,49 +17,20 @@
             <p>> MINESWEEPER</p>
         </div>
         <br>
-        <canvas id="game" width="101" height="101" style="border:1px solid #000"></canvas>
+        <canvas id="canvas" width="101" height="101" style="border:1px solid #000"></canvas>
         <br>
-        <button onclick="prepareThineSweeper(10, 'game')"> PLAY </button>
+        <button onclick="prepareThineSweeper()"> PLAY </button>
+        <br>
+        <script type="text/javascript">document.write(test1)</script>
     </head>
 </html>
 
 <script>
-    var gameType = 0; // 0  is none, 1 is Mine, 2 is Snake
-    var size = 10;
+    var canvas = document.getElementById("canvas");
 
-    function boardPxSize() {
-        return 10*size+1;
+    function swap() {
+        return canvas.getImageData.height;
     }
-
-    var board;
-    var data;
-    var size;
-    var intBoard;
-    var id;
-
-    function prepareThineSweeper(size, id) {
-        this.id = id;
-        this.size = size;
-        board=ImageData.createImageData(size*10+1, size*10+1);
-        blankBoard(id, size);
-    }
-
-    function blankBoard(id, size) {
-        data = board.data;
-        for (var x = 0; x < size*10+1; x++) {
-            for (var y = 0; y < size*10+1; y++) {
-                if (x%10 == 0 || y%10 == 1) {
-                    data[4*(size*y+x)+0] = 0;
-                    data[4*(size*y+x)+1] = 0;
-                    data[4*(size*y+x)+2] = 0;
-                } else {
-                    data[4*(size*y+x)+0] = 255;
-                    data[4*(size*y+x)+1] = 242;
-                    data[4*(size*y+x)+2] = 204;
-                }
-                data[4*(size*y+x)+3] = 255;
-            }
-        }
-        document.getElementById(id).getContext("2d").putImageData(board, 0,0);
-    }
+    test = swap;
+    test2 = "HII";
 </script>
