@@ -46,9 +46,9 @@
 
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext("2d");
-        var boardData = ctx.createImageData(400,400);
+        var boardData = ctx.createImageData(404,404);
 
-        var intboard = new int[101][101][3];
+        var intboard = [101][101][3];
         var data;
 
         var boolBoard;
@@ -77,15 +77,20 @@
 
         function testBoard() {
             data = boardData.data;
-            for (let y = 0; y < 101; y++) {
-                for (let x = 0; x < 101; x++) {
-                    for (let y2 = 0; y2 < scale; y2++) {
-                        for (let x2 = 0; x2 < scale; x2++) {
-                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+0] = 255;
-                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+1] = 0;
-                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+2] = 0;
-                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+3] = 255;
-                            console.log(4*404*y2+(404*scale*y)+4*x2+(4*scale*x));
+            for (let y = 0; y < data.length; y+=6464) {
+                for (let x = 0; x < 1616; x+=16) {
+                    for (let y2 = 0; y2 < 6464; y2+=1616) {
+                        for (let x2 = 0; x2 < 16; x2+=4) {
+                            if (x%160 == 0 || y%640 == 0) {
+                                data[y+x+y2+x2+0] = 0;
+                                data[y+x+y2+x2+1] = 0;
+                                data[y+x+y2+x2+2] = 0;
+                            } else {
+                                data[y+x+y2+x2+0] = 20;
+                                data[y+x+y2+x2+1] = 255;
+                                data[y+x+y2+x2+2] = 20;
+                            }
+                            data[y+x+y2+x2+3] = 255;
                         }
                     }
                 }
@@ -95,9 +100,9 @@
 
         function snakeBoard() {
             data = boardData.data;
-            for (let y = 0; y < data.length; y+=1600) {
+            for (let y = 0; y < data.length; y+=1616) {
                 for (let x = 0; x < data.length; x+=4) {
-                    if ((x+4)%160 == 0 || (y+1600)%64000 == 0) {
+                    if ((x+4)%160 <= 2 || (x+4)%160 >= 156 || (y+1616)%640 == 0) {
                         data[y+x+0] = 0;
                         data[y+x+1] = 0;
                         data[y+x+2] = 0;
