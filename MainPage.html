@@ -20,7 +20,7 @@
         <br>
         <canvas id="canvas" width="404" height="404" style="border:1px solid #000"></canvas>
         <br>
-        <button onclick="testBoard()"> PLAY </button>
+        <button onclick="beginGame()"> PLAY </button>
     </head>
 
     <script>
@@ -28,9 +28,18 @@
 
         function activateBoard() {
             if (currentGame == "minesweeper") {
-                testBoard();
+                prepareThineSweeper();
             } else if (currentGame == "snake"){
                 snakeBoard();
+            }
+        }
+
+        function beginGame() {
+            if (currentGame == "minesweeer") {
+                generateMines();
+                prepareThineSweeper();
+            } else if (currentGame == "snake") {
+
             }
         }
         
@@ -47,35 +56,23 @@
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext("2d");
         var boardData = ctx.createImageData(404,404);
-
-        var intboard = [101][101][3];
         var data;
 
-        var boolBoard;
+        var pixelboard = [101][101][3];
+        var intboard = [10][10];
+        var boolboard = [10][10];
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                intboard[i][j] = 0;
+                boolboard[i][j] = false;
+            }
+        }
+
         var size = 101;
         var scale = 4;
         var test = 0;
 
-        // function prepareThineSweeper() {
-        //     data = boardData.data;
-        //     for (let y = 0; y < data.length; y+=1600) {
-        //         for (let x = 0; x < data.length; x+=4) {
-        //             if ((x+4)%160 == 0 || (y+1600)%64000 == 0) {
-        //                 data[y+x+0] = 0;
-        //                 data[y+x+1] = 0;
-        //                 data[y+x+2] = 0;
-        //             } else {
-        //                 data[y+x+0] = 255;
-        //                 data[y+x+1] = 242;
-        //                 data[y+x+2] = 204;
-        //             }
-        //             data[y+x+3] = 255;
-        //         }
-        //     }
-        //     ctx.putImageData(boardData,0,0);
-        // }
-
-        function testBoard() {
+        function prepareThineSweeper() {
             data = boardData.data;
             for (let y = 0; y < data.length; y+=6464) {
                 for (let x = 0; x < 1616; x+=16) {
@@ -89,6 +86,10 @@
                                 data[y+x+y2+x2+0] = 255;
                                 data[y+x+y2+x2+1] = 242;
                                 data[y+x+y2+x2+2] = 204;
+                            } else if (intboard[y][x] == 10) {
+                                data[y+x+y2+x2+0] = colors[9][0];
+                                data[y+x+y2+x2+1] = colors[9][1];
+                                data[y+x+y2+x2+2] = colors[9][2];
                             } else {
                                 data[y+x+y2+x2+0] = 215;
                                 data[y+x+y2+x2+1] = 202;
@@ -100,6 +101,19 @@
                 }
             }
             ctx.putImageData(boardData,0,0);
+        }
+
+        function generateMines(clickx, clicky) {
+            var randx;
+            var randy;
+            for (let minesleft = 30; mineleft > 0; minesleft+=0) {
+                randx = Math.floor(Math.random()*10);
+                randy = Math.floor(Math.random()*10);
+                if (Math.abs(randx-clickx) >= 2 && Math.abs(randy-clicky) >= 2 && intboard[randy][randx] != 9) {
+                    intboard[randy][randx] != 9;
+                    minesleft--;
+                }
+            }
         }
 
         function snakeBoard() {
@@ -120,5 +134,19 @@
             }
             ctx.putImageData(boardData,0,0);
         }
+
+        var colors = [
+            [255,242,204], // 0:  Zero
+            [106,168,79], // 1:  One
+            [241,194,50], // 2:  Two
+            [230,145,56], // 3:  Three
+            [230,0,0], // 4:  Four
+            [166,77,121], // 5:  Five
+            [103,78,167], // 6:  Six
+            [61,133,198], // 7:  Seven
+            [28,69,135], // 8:  Eight
+            [0,0,0], // 9:  Mine
+            [255,0,0] // 10: Flag
+    ]
     </script>
 </html>
