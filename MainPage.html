@@ -18,9 +18,9 @@
             <p id="mineText">> MINESWEEPER</p>
         </div>
         <br>
-        <canvas id="canvas" width="400" height="400" style="border:1px solid #000"></canvas>
+        <canvas id="canvas" width="404" height="404" style="border:1px solid #000"></canvas>
         <br>
-        <button onclick="prepareThineSweeper()"> PLAY </button>
+        <button onclick="testBoard()"> PLAY </button>
     </head>
 
     <script>
@@ -28,7 +28,7 @@
 
         function activateBoard() {
             if (currentGame == "minesweeper") {
-                prepareThineSweeper();
+                testBoard();
             } else if (currentGame == "snake"){
                 snakeBoard();
             }
@@ -48,25 +48,46 @@
         var ctx = canvas.getContext("2d");
         var boardData = ctx.createImageData(400,400);
 
+        var intboard = new int[101][101][3];
         var data;
-        var intBoard;
-        var boolBoard;
-        var size = 99;
 
-        function prepareThineSweeper() {
+        var boolBoard;
+        var size = 101;
+        var scale = 4;
+        var test = 0;
+
+        // function prepareThineSweeper() {
+        //     data = boardData.data;
+        //     for (let y = 0; y < data.length; y+=1600) {
+        //         for (let x = 0; x < data.length; x+=4) {
+        //             if ((x+4)%160 == 0 || (y+1600)%64000 == 0) {
+        //                 data[y+x+0] = 0;
+        //                 data[y+x+1] = 0;
+        //                 data[y+x+2] = 0;
+        //             } else {
+        //                 data[y+x+0] = 255;
+        //                 data[y+x+1] = 242;
+        //                 data[y+x+2] = 204;
+        //             }
+        //             data[y+x+3] = 255;
+        //         }
+        //     }
+        //     ctx.putImageData(boardData,0,0);
+        // }
+
+        function testBoard() {
             data = boardData.data;
-            for (let y = 0; y < data.length; y+=1600) {
-                for (let x = 0; x < data.length; x+=4) {
-                    if ((x+4)%160 == 0 || (y+1600)%64000 == 0) {
-                        data[y+x+0] = 0;
-                        data[y+x+1] = 0;
-                        data[y+x+2] = 0;
-                    } else {
-                        data[y+x+0] = 255;
-                        data[y+x+1] = 242;
-                        data[y+x+2] = 204;
+            for (let y = 0; y < 101; y++) {
+                for (let x = 0; x < 101; x++) {
+                    for (let y2 = 0; y2 < scale; y2++) {
+                        for (let x2 = 0; x2 < scale; x2++) {
+                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+0] = 255;
+                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+1] = 0;
+                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+2] = 0;
+                            data[4*404*y2+(404*scale*y)+4*x2+(4*scale*x)+3] = 255;
+                            console.log(4*404*y2+(404*scale*y)+4*x2+(4*scale*x));
+                        }
                     }
-                    data[y+x+3] = 255;
                 }
             }
             ctx.putImageData(boardData,0,0);
@@ -88,7 +109,7 @@
                     data[y+x+3] = 255;
                 }
             }
-            ctx.putImageData(boardData,0,0);;
+            ctx.putImageData(boardData,0,0);
         }
     </script>
 </html>
