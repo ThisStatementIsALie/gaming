@@ -59,14 +59,27 @@
         var data;
 
         var pixelboard = [101][101][3];
-        var intboard = [10][10];
-        var boolboard = [10][10];
+        var intboard;
+        var boolboard;
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
                 intboard[i][j] = 0;
                 boolboard[i][j] = false;
             }
         }
+        var colors = [
+            [255,242,204], // 0:  Zero
+            [106,168,79], // 1:  One
+            [241,194,50], // 2:  Two
+            [230,145,56], // 3:  Three
+            [230,0,0], // 4:  Four
+            [166,77,121], // 5:  Five
+            [103,78,167], // 6:  Six
+            [61,133,198], // 7:  Seven
+            [28,69,135], // 8:  Eight
+            [255,0,0], // 9:  Mine
+            [255,0,0] // 10: Flag
+        ];
 
         var size = 101;
         var scale = 4;
@@ -86,10 +99,10 @@
                                 data[y+x+y2+x2+0] = 255;
                                 data[y+x+y2+x2+1] = 242;
                                 data[y+x+y2+x2+2] = 204;
-                            } else if (intboard[y][x] == 10) {
-                                data[y+x+y2+x2+0] = colors[9][0];
-                                data[y+x+y2+x2+1] = colors[9][1];
-                                data[y+x+y2+x2+2] = colors[9][2];
+                            // } else if (intboard[0][0] != None && intboard[0][0] == 10 && boolboard[0][0]) {
+                            //     data[y+x+y2+x2+0] = colors[9][0];
+                            //     data[y+x+y2+x2+1] = colors[9][1];
+                            //     data[y+x+y2+x2+2] = colors[9][2];
                             } else {
                                 data[y+x+y2+x2+0] = 215;
                                 data[y+x+y2+x2+1] = 202;
@@ -118,35 +131,25 @@
 
         function snakeBoard() {
             data = boardData.data;
-            for (let y = 0; y < data.length; y+=1616) {
-                for (let x = 0; x < data.length; x+=4) {
-                    if ((x+4)%160 <= 2 || (x+4)%160 >= 156 || (y+1616)%640 == 0) {
-                        data[y+x+0] = 0;
-                        data[y+x+1] = 0;
-                        data[y+x+2] = 0;
-                    } else {
-                        data[y+x+0] = 20;
-                        data[y+x+1] = 255;
-                        data[y+x+2] = 20;
+            for (let y = 0; y < data.length; y+=6464) {
+                for (let x = 0; x < 1616; x+=16) {
+                    for (let y2 = 0; y2 < 6464; y2+=1616) {
+                        for (let x2 = 0; x2 < 16; x2+=4) {
+                            if (x%160 == 0 || y%640 == 0) {
+                                data[y+x+y2+x2+0] = 0;
+                                data[y+x+y2+x2+1] = 0;
+                                data[y+x+y2+x2+2] = 0;
+                            } else {
+                                data[y+x+y2+x2+0] = 20;
+                                data[y+x+y2+x2+1] = 255;
+                                data[y+x+y2+x2+2] = 20;
+                            }
+                            data[y+x+y2+x2+3] = 255;
+                        }
                     }
-                    data[y+x+3] = 255;
                 }
             }
             ctx.putImageData(boardData,0,0);
         }
-
-        var colors = [
-            [255,242,204], // 0:  Zero
-            [106,168,79], // 1:  One
-            [241,194,50], // 2:  Two
-            [230,145,56], // 3:  Three
-            [230,0,0], // 4:  Four
-            [166,77,121], // 5:  Five
-            [103,78,167], // 6:  Six
-            [61,133,198], // 7:  Seven
-            [28,69,135], // 8:  Eight
-            [0,0,0], // 9:  Mine
-            [255,0,0] // 10: Flag
-    ]
     </script>
 </html>
