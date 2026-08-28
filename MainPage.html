@@ -27,15 +27,14 @@
 
         function activateBoard() {
             if (currentGame == "minesweeper") {
-                prepareThineSweeper();
+                blankSweep();
             } else if (currentGame == "snake"){
                 snakeBoard();
             }
         }
 
         function beginGame() {
-            if (currentGame == "minesweeer") {
-                generateMines(5,5);
+            if (currentGame == "minesweeper") {
                 prepareThineSweeper();
             } else if (currentGame == "snake") {
 
@@ -92,6 +91,35 @@
         function prepareThineSweeper() {
             data = boardData.data;
 
+            var randx;
+            var randy;
+            var clickx = 0;
+            var clicky = 0;
+            for (let minesleft = 25; minesleft > 0; minesleft+=0) {
+                randx = Math.floor(Math.random()*10);
+                randy = Math.floor(Math.random()*10);
+                if ((Math.abs(randx-clickx) >= 2 || Math.abs(randy-clicky) >= 2) && intboard[randy][randx] != 9) {
+                    intboard[randy][randx] = 9;
+                    minesleft--;
+                }
+            }
+
+            for (let y = 0; y < 10; y++) {
+                for (let x = 0; x < 10; x++) {
+                    if (intboard[y][x] != 9) {
+                        for (let y2 = -1; y2 < 2; y2++) {
+                            for (let x2 = -1; x2 < 2; x2++) {
+                                if (y+y2 > 0 && y+y2 < 10 && x+x2 > 0 && x+x2 < 10) {
+                                    if (intboard[y+y2][x+x2] == 9) {
+                                        intboard[y][x]++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             for (let y = 0; y < data.length; y+=6464) {
                 for (let x = 0; x < 1616; x+=16) {
                     for (let y2 = 0; y2 < 6464; y2+=1616) {
@@ -107,6 +135,38 @@
                                 data[y+x+y2+x2+1] = 242;
                                 data[y+x+y2+x2+2] = 204;
                             } else if (intboard[trueY][trueX] == 1) {
+                                data[y+x+y2+x2+0] = colors[1][0];
+                                data[y+x+y2+x2+1] = colors[1][1];
+                                data[y+x+y2+x2+2] = colors[1][2];
+                            } else if (intboard[trueY][trueX] == 2) {
+                                data[y+x+y2+x2+0] = colors[2][0];
+                                data[y+x+y2+x2+1] = colors[2][1];
+                                data[y+x+y2+x2+2] = colors[2][2];
+                            } else if (intboard[trueY][trueX] == 3) {
+                                data[y+x+y2+x2+0] = colors[3][0];
+                                data[y+x+y2+x2+1] = colors[3][1];
+                                data[y+x+y2+x2+2] = colors[3][2];
+                            } else if (intboard[trueY][trueX] == 4) {
+                                data[y+x+y2+x2+0] = colors[4][0];
+                                data[y+x+y2+x2+1] = colors[4][1];
+                                data[y+x+y2+x2+2] = colors[4][2];
+                            } else if (intboard[trueY][trueX] == 5) {
+                                data[y+x+y2+x2+0] = colors[5][0];
+                                data[y+x+y2+x2+1] = colors[5][1];
+                                data[y+x+y2+x2+2] = colors[5][2];
+                            } else if (intboard[trueY][trueX] == 6) {
+                                data[y+x+y2+x2+0] = colors[6][0];
+                                data[y+x+y2+x2+1] = colors[6][1];
+                                data[y+x+y2+x2+2] = colors[6][2];
+                            } else if (intboard[trueY][trueX] == 7) {
+                                data[y+x+y2+x2+0] = colors[7][0];
+                                data[y+x+y2+x2+1] = colors[7][1];
+                                data[y+x+y2+x2+2] = colors[7][2];
+                            } else if (intboard[trueY][trueX] == 8) {
+                                data[y+x+y2+x2+0] = colors[8][0];
+                                data[y+x+y2+x2+1] = colors[8][1];
+                                data[y+x+y2+x2+2] = colors[8][2];
+                            } else if (intboard[trueY][trueX] == 9) {
                                 data[y+x+y2+x2+0] = colors[9][0];
                                 data[y+x+y2+x2+1] = colors[9][1];
                                 data[y+x+y2+x2+2] = colors[9][2];
@@ -123,17 +183,33 @@
             ctx.putImageData(boardData,0,0);
         }
 
-        function generateMines(clickx, clicky) {
-            var randx;
-            var randy;
-            for (let minesleft = 30; minesleft > 0; minesleft+=0) {
-                randx = Math.floor(Math.random()*10);
-                randy = Math.floor(Math.random()*10);
-                if (Math.abs(randx-clickx) >= 2 && Math.abs(randy-clicky) >= 2 && intboard[randy][randx] != 9) {
-                    intboard[randy][randx] != 9;
-                    minesleft--;
+        function blankSweep() {
+            data = boardData.data;
+            for (let y = 0; y < data.length; y+=6464) {
+                for (let x = 0; x < 1616; x+=16) {
+                    for (let y2 = 0; y2 < 6464; y2+=1616) {
+                        for (let x2 = 0; x2 < 16; x2+=4) {
+                            trueX = Math.floor(x/160);
+                            trueY = Math.floor(y/64640);
+                            if (x%160 == 0 || y%640 == 0) {
+                                data[y+x+y2+x2+0] = 0;
+                                data[y+x+y2+x2+1] = 0;
+                                data[y+x+y2+x2+2] = 0;
+                            } else if (x%160 == 16 || x%160 == 144 || y%640 == 64 || y%640 == 576) {
+                                data[y+x+y2+x2+0] = 255;
+                                data[y+x+y2+x2+1] = 242;
+                                data[y+x+y2+x2+2] = 204;
+                            } else {
+                                data[y+x+y2+x2+0] = colors[0][0];
+                                data[y+x+y2+x2+1] = colors[0][1];
+                                data[y+x+y2+x2+2] = colors[0][2];
+                            }
+                            data[y+x+y2+x2+3] = 255;
+                        }
+                    }
                 }
             }
+            ctx.putImageData(boardData,0,0);
         }
 
         function snakeBoard() {
