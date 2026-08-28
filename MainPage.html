@@ -163,7 +163,7 @@
                 [colors[0],colors[0],colors[0],colors[0],colors[0],colors[0],colors[0]],
                 [colors[0],colors[0],colors[0],colors[0],colors[0],colors[0],colors[0]],
                 [colors[0],colors[0],colors[0],colors[0],colors[0],colors[0],colors[0]],
-            ],
+            ]
         ];
 
         var size = 101;
@@ -212,8 +212,8 @@
                         for (let x2 = 0; x2 < 16; x2+=4) {
                             trueX = Math.floor(x/160);
                             trueY = Math.floor(y/64640);
-                            artX = (x%160)/16;
-                            artY = (y%160)/16;
+                            artX = (x-x%160)/16;
+                            artY = (y-y%64640)/6464;
                             if (x%160 == 0 || y%640 == 0) {
                                 data[y+x+y2+x2+0] = 0;
                                 data[y+x+y2+x2+1] = 0;
