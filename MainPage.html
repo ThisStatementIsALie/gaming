@@ -19,7 +19,6 @@
         <br>
         <canvas id="canvas" width="404" height="404" style="border:1px solid #000"></canvas>
         <br>
-        <button onclick="beginGame()"> PLAY </button>
     </head>
 
     <script>
@@ -35,6 +34,7 @@
 
         function beginGame() {
             if (currentGame == "minesweeper") {
+                prepareThineMines();
                 prepareThineSweeper();
             } else if (currentGame == "snake") {
 
@@ -56,6 +56,11 @@
         var boardData = ctx.createImageData(404,404);
         var data;
 
+        var mouseX = 0;
+        var mouseY = 0;
+        var mouseX2 = 0;
+        var mouseY2 = 0;
+
         var boolboard;
 
 
@@ -66,6 +71,19 @@
                 intboard[i][j] = 0;
             }
         }
+
+        canvas.addEventListener("mousemove", function(){
+            mouseX = event.pageX;
+            mouseY = event.pageY;
+        });
+
+        document.addEventListener("keypress", function(){
+            mouseX2 = ((mouseX-canvas.offsetLeft-(mouseX-canvas.offsetLeft)%40)/40);
+            mouseY2 = ((mouseY-canvas.offsetTop-(mouseY-canvas.offsetTop)%-40)/40);
+            if (event.key == "z" && mouseX2 < 10 && mouseX2 >= 0 && mouseY2 < 10 && mouseY2 >= 0) {
+                beginGame();
+            }
+        });
 
 
         var colors = [
@@ -179,32 +197,6 @@
             var randy;
             var artX;
             var artY;
-            var clickx = 0;
-            var clicky = 0;
-            for (let minesleft = 25; minesleft > 0; minesleft+=0) {
-                randx = Math.floor(Math.random()*10);
-                randy = Math.floor(Math.random()*10);
-                if ((Math.abs(randx-clickx) >= 2 || Math.abs(randy-clicky) >= 2) && intboard[randy][randx] != 9) {
-                    intboard[randy][randx] = 9;
-                    minesleft--;
-                }
-            }
-
-            for (let y = 0; y < 10; y++) {
-                for (let x = 0; x < 10; x++) {
-                    if (intboard[y][x] != 9) {
-                        for (let y2 = -1; y2 < 2; y2++) {
-                            for (let x2 = -1; x2 < 2; x2++) {
-                                if (y+y2 > 0 && y+y2 < 10 && x+x2 > 0 && x+x2 < 10 && x2 != 0 && y2 != 0) {
-                                    if (intboard[y+y2][x+x2] == 9) {
-                                        intboard[y][x]++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
             for (let y = 0; y < data.length; y+=6464) {
                 for (let x = 0; x < 1616; x+=16) {
@@ -219,7 +211,6 @@
                                 data[y+x+y2+x2+1] = 0;
                                 data[y+x+y2+x2+2] = 0;
                             } else if (artX == -1 || artX == 7 || artY == -1 || artY == 7) {
-                            // } else if (x%160 == 16 || x%160 == 144 || y%640 == 64 || y%640 == 576) {
                                 data[y+x+y2+x2+0] = 255;
                                 data[y+x+y2+x2+1] = 242;
                                 data[y+x+y2+x2+2] = 204;
@@ -274,6 +265,38 @@
                 }
             }
             ctx.putImageData(boardData,0,0);
+        }
+
+        function prepareThineMines() {
+            for (let y = 0; y < 10; y++) {
+                for (let x = 0; x < 10; x++) {
+                    intboard[y][x] = 0;
+                }
+            }
+            for (let minesleft = 25; minesleft > 0; minesleft+=0) {
+                randx = Math.floor(Math.random()*10);
+                randy = Math.floor(Math.random()*10);
+                if ((Math.abs(randx-mouseX2) >= 2 || Math.abs(randy-mouseY2) >= 2) && intboard[randy][randx] != 9) {
+                    intboard[randy][randx] = 9;
+                    minesleft--;
+                }
+            }
+
+            for (let y = 0; y < 10; y++) {
+                for (let x = 0; x < 10; x++) {
+                    if (intboard[y][x] != 9) {
+                        for (let y2 = y-1; y2 < y+2; y2++) {
+                            for (let x2 = x-1; x2 < x+2; x2++) {
+                                if (y2 > -1 && y2 < 10 && x2 > -1 && x2 < 10 && (y2 != y || x2 != x)) {
+                                    if (intboard[y2][x2] == 9) {
+                                        intboard[y][x]++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         function blankSweep() {
