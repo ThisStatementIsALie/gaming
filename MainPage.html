@@ -48,9 +48,11 @@
         function snakeTextClick() {
             if (!gameStarted || tilesLeft == 0) {
                 currentGame = "snake";
+                gameStarted = false;
                 snakeBoard();
                 document.getElementById("desc").innerHTML=
                 "SNAKE<br>The goal of the game is to grow the snake by eating apples until it fills the board.<br>If you run into yourself or the border, you lose.<br>---------<br>KEYBINDS:<br>w/Up-Arrow - Turn to face upward<br>a/Left-Arrow - Turn to face leftward<br>s/Down-Arrow - Turn to face downward<br>d/Right-Arrow - Turn to face rightward<br>r - Reset Game<br>---------<br>Hit any of the keys listed above to start.<br>If you fail, reset the board to play again."
+                document.getElementById("info").innerHTML="No info to display yet...";
             }
         };
 
