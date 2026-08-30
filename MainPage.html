@@ -9,12 +9,13 @@
             Instructions show up when a game is selected. <br><br>
             Enjoy!<br><br>
         </body>
-        <button id="snakeText" onclick ="snakeTextClick()">> SNAKE</button>
-        <button id="mineText" onclick="mineTextClick()">> MINESWEEPER</button>
+        <button id="snakeText" onclick ="snakeTextClick()" style="background-color: #14ff14;border-color: #fff;">SNAKE</button>
+        <button id="mineText" onclick="mineTextClick()" style="background-color: #ffe8cc;border-color: #fff;">MINESWEEPER</button>
         <br>
         <p id="desc">No game selected.</p>
+        <p id="info"></p>
         <br>
-        <canvas id="canvas" width="404" height="404" style="border:1px solid #000"></canvas>
+        <canvas id="canvas" width="404" height="404" style="border:1px solid #fff"></canvas>
         <br>
     </head>
 
@@ -40,12 +41,12 @@
                 currentGame = "minesweeper";
                 blankSweep();
                 document.getElementById("desc").innerHTML=
-            "MINESWEEPER<br>The goal of the game is to dig all of the tiles on the board without selecting a mine.<br>Numbers on each tile tell you how many of the 8 directly adjacent spaces are mines.<br>---------<br>KEYBINDS:<br>z - Dig<br>x - Place/Remove flag<br>r - Reset board<br>---------<br>Hover your mouse over a tile and dig to start.<br>If you fail, dig anywhere on the board to reset."
+            "MINESWEEPER<br>The goal of the game is to dig all of the tiles on the board without selecting a mine.<br>Numbers on each tile tell you how many of the 8 directly adjacent spaces are mines.<br>---------<br>KEYBINDS:<br>z - Dig<br>x - Place/Remove flag<br>r - Reset board<br>---------<br>Hover your mouse over a tile and dig to start.<br>If you fail, dig anywhere on the board to reset.";
             }
         };
 
         function snakeTextClick() {
-            if (!gameStarted) {
+            if (!gameStarted || tilesLeft == 0) {
                 currentGame = "snake";
                 snakeBoard();
                 document.getElementById("desc").innerHTML=
@@ -62,6 +63,9 @@
         var mouseY = 0;
         var mouseX2 = 0;
         var mouseY2 = 0;
+        var flagsPlaced = 0;
+        var tilesLeft = 84;
+        
 
         var boolboard = [];
         var flagboard = [];
@@ -77,45 +81,67 @@
             }
         }
 
+        function updateInfo() {
+            if (tilesLeft == 0) {
+                document.getElementById("info").innerHTML="You win!";
+                document.getElementById("mineText").style.borderColor="#ffff55";
+                document.getElementById("mineText").style.backgroundColor="#cccc44";
+            } else {
+                document.getElementById("info").innerHTML="Total Mines: 15 | Flags Placed: "+flagsPlaced+" | Tiles Left: "+tilesLeft;
+            }
+        }
+
         canvas.addEventListener("mousemove", function(){
             mouseX = event.pageX;
             mouseY = event.pageY;
         });
 
         document.addEventListener("keypress", function(){
-            if (event.key == "r") {
-                blankSweep();
-                gameStarted = false;
-            }
-            mouseX2 = ((mouseX-canvas.offsetLeft-(mouseX-canvas.offsetLeft)%40)/40);
-            mouseY2 = ((mouseY-canvas.offsetTop-(mouseY-canvas.offsetTop)%-40)/40);
-            if (mouseX2 < 10 && mouseX2 >= 0 && mouseY2 < 10 && mouseY2 >= 0) {
-                if (event.key == "z") {
-                    if (gameOvered) {
-                        gameOvered = false;
-                        blankSweep();
-                    } else if (!gameStarted) {
-                        beginGame();
-                    } else {
-                        if (!flagboard[mouseY2][mouseX2]) {
-                            if (intboard[mouseY2][mouseX2] == 9) {
-                                hitMine();
-                            } else {
-                                boolboard[mouseY2][mouseX2] = true;
-                                updateShown();
-                                updateBoard();
-                            }
-                        }                        
+            if (currentGame == "minesweeper") {
+                if (event.key == "r") {
+                    blankSweep();
+                    gameStarted = false;
+                }
+                mouseX2 = ((mouseX-canvas.offsetLeft-(mouseX-canvas.offsetLeft)%40)/40);
+                mouseY2 = ((mouseY-canvas.offsetTop-(mouseY-canvas.offsetTop)%-40)/40);
+                if (mouseX2 < 10 && mouseX2 >= 0 && mouseY2 < 10 && mouseY2 >= 0) {
+                    if (event.key == "z") {
+                        if (gameOvered) {
+                            gameOvered = false;
+                            blankSweep();
+                        } else if (!gameStarted) {
+                            beginGame();
+                        } else {
+                            if (!flagboard[mouseY2][mouseX2]) {
+                                if (intboard[mouseY2][mouseX2] == 9) {
+                                    hitMine();
+                                } else {
+                                    if (!boolboard[mouseY2][mouseX2]) {
+                                        boolboard[mouseY2][mouseX2] = true;
+                                        tilesLeft--;
+                                        updateShown();
+                                        updateBoard();
+                                        updateInfo();
+                                    }
+                                    
+                                }
+                            }                        
+                        }
+                    } else if (event.key == "x" && gameStarted) {
+                        if (flagboard[mouseY2][mouseX2]) {
+                            flagboard[mouseY2][mouseX2] = false;
+                            flagsPlaced--;
+                            updateInfo();
+                        } else if (!boolboard[mouseY2][mouseX2]) {
+                            flagboard[mouseY2][mouseX2] = true;
+                            flagsPlaced++;
+                            updateInfo();
+                        }
+                        updateBoard();
                     }
-                } else if (event.key == "x" && gameStarted) {
-                    if (flagboard[mouseY2][mouseX2]) {
-                        flagboard[mouseY2][mouseX2] = false;
-                    } else {
-                        flagboard[mouseY2][mouseX2] = true;
-                    }
-                    updateBoard();
                 }
             }
+            
         });
 
         // MINESWEEPER CODE
@@ -318,6 +344,8 @@
                                     if (y2 > -1 && y2 < 10 && x2 > -1 && x2 < 10 && (y2 != y || x2 != x) && !boolboard[y2][x2]) {
                                         boolboard[y2][x2] = true;
                                         amountrevealed++;
+                                        tilesLeft--;
+                                        updateInfo();
                                     }
                                 }
                             }
@@ -329,6 +357,8 @@
         }
 
         function prepareThineMines() {
+            flagsPlaced = 0;
+            tilesLeft = 84;
             for (let y = 0; y < 10; y++) {
                 for (let x = 0; x < 10; x++) {
                     intboard[y][x] = 0;
@@ -339,7 +369,7 @@
 
             boolboard[mouseY2][mouseX2] = true;
 
-            for (let minesleft = 25; minesleft > 0; minesleft+=0) {
+            for (let minesleft = 15; minesleft > 0; minesleft+=0) {
                 randx = Math.floor(Math.random()*10);
                 randy = Math.floor(Math.random()*10);
                 if ((Math.abs(randx-mouseX2) >= 2 || Math.abs(randy-mouseY2) >= 2) && intboard[randy][randx] != 9) {
@@ -414,6 +444,10 @@
                 [msCols[9],msCols[0],msCols[0],msCols[9],msCols[0],msCols[0],msCols[9]]
             ];
             updateBoard();
+        }
+
+        function sweeperWin() {
+            document.getElementById("info").innerHTML="You win!";
         }
 
         // SNAKE CODE
