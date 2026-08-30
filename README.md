@@ -4,7 +4,7 @@ A github page for multiple small games such as Minesweeper and Snake. Only Mines
 
 Can be found and played at [https://thisstatementisalie.github.io/gaming/MainPage.html](https://thisstatementisalie.github.io/gaming/MainPage.html).
 
-![alt text](https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/hunxwbdrxxpkzzbvbfqz)
+![alt text](https://github.com/ThisStatementIsALie/gaming/blob/main/previewImg.png)
 
 ##   Games
 ### Made
