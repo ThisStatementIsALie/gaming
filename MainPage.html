@@ -39,18 +39,18 @@
             if (!gameStarted) {
                 currentGame = "minesweeper";
                 blankSweep();
-            }
-            document.getElementById("desc").innerHTML=
+                document.getElementById("desc").innerHTML=
             "MINESWEEPER<br>The goal of the game is to dig all of the tiles on the board without selecting a mine.<br>Numbers on each tile tell you how many of the 8 directly adjacent spaces are mines.<br>---------<br>KEYBINDS:<br>z - Dig<br>x - Place/Remove flag<br>r - Reset board<br>---------<br>Hover your mouse over a tile and dig to start.<br>If you fail, dig anywhere on the board to reset."
+            }
         };
 
         function snakeTextClick() {
             if (!gameStarted) {
                 currentGame = "snake";
                 snakeBoard();
+                document.getElementById("desc").innerHTML=
+                "SNAKE<br>The goal of the game is to grow the snake by eating apples until it fills the board.<br>If you run into yourself or the border, you lose.<br>---------<br>KEYBINDS:<br>w/Up-Arrow - Turn to face upward<br>a/Left-Arrow - Turn to face leftward<br>s/Down-Arrow - Turn to face downward<br>d/Right-Arrow - Turn to face rightward<br>r - Reset Game<br>---------<br>Hit any of the keys listed above to start.<br>If you fail, reset the board to play again."
             }
-            document.getElementById("desc").innerHTML=
-            "SNAKE<br>The goal of the game is to grow the snake by eating apples until it fills the board.<br>If you run into yourself or the border, you lose.<br>---------<br>KEYBINDS:<br>w/Up-Arrow - Turn to face upward<br>a/Left-Arrow - Turn to face leftward<br>s/Down-Arrow - Turn to face downward<br>d/Right-Arrow - Turn to face rightward<br>r - Reset Game<br>---------<br>Hit any of the keys listed above to start.<br>If you fail, reset the board to play again."
         };
 
         var canvas = document.getElementById("canvas");
@@ -84,7 +84,8 @@
 
         document.addEventListener("keypress", function(){
             if (event.key == "r") {
-                beginGame();
+                blankSweep();
+                gameStarted = false;
             }
             mouseX2 = ((mouseX-canvas.offsetLeft-(mouseX-canvas.offsetLeft)%40)/40);
             mouseY2 = ((mouseY-canvas.offsetTop-(mouseY-canvas.offsetTop)%-40)/40);
@@ -117,8 +118,9 @@
             }
         });
 
+        // MINESWEEPER CODE
 
-        var colors = [
+        var msCols = [
             [255,242,204], // 0:  Zero
             [106,168,79], // 1:  One
             [241,194,50], // 2:  Two
@@ -132,87 +134,87 @@
             [255,0,0] // 10: Flag
         ];
 
-        var pixArt = [ // Base 0 index as first art is for 1
+        var mineArt = [ // Base 0 index as first art is for 1
             [   // [0]: 1
-                [colors[0],colors[0],colors[0],colors[1],colors[1],colors[0],colors[0]],
-                [colors[0],colors[0],colors[1],colors[1],colors[1],colors[0],colors[0]],
-                [colors[0],colors[1],colors[1],colors[1],colors[1],colors[0],colors[0]],
-                [colors[0],colors[0],colors[1],colors[1],colors[1],colors[0],colors[0]],
-                [colors[0],colors[0],colors[1],colors[1],colors[1],colors[0],colors[0]],
-                [colors[0],colors[0],colors[1],colors[1],colors[1],colors[0],colors[0]],
-                [colors[0],colors[1],colors[1],colors[1],colors[1],colors[1],colors[0]]
+                [msCols[0],msCols[0],msCols[0],msCols[1],msCols[1],msCols[0],msCols[0]],
+                [msCols[0],msCols[0],msCols[1],msCols[1],msCols[1],msCols[0],msCols[0]],
+                [msCols[0],msCols[1],msCols[1],msCols[1],msCols[1],msCols[0],msCols[0]],
+                [msCols[0],msCols[0],msCols[1],msCols[1],msCols[1],msCols[0],msCols[0]],
+                [msCols[0],msCols[0],msCols[1],msCols[1],msCols[1],msCols[0],msCols[0]],
+                [msCols[0],msCols[0],msCols[1],msCols[1],msCols[1],msCols[0],msCols[0]],
+                [msCols[0],msCols[1],msCols[1],msCols[1],msCols[1],msCols[1],msCols[0]]
             ],[ // [1]: 2
-                [colors[0],colors[2],colors[2],colors[2],colors[2],colors[2],colors[0]],
-                [colors[2],colors[2],colors[2],colors[2],colors[2],colors[2],colors[2]],
-                [colors[2],colors[2],colors[0],colors[0],colors[2],colors[2],colors[2]],
-                [colors[0],colors[0],colors[0],colors[2],colors[2],colors[2],colors[0]],
-                [colors[0],colors[0],colors[2],colors[2],colors[2],colors[0],colors[0]],
-                [colors[0],colors[2],colors[2],colors[2],colors[0],colors[0],colors[0]],
-                [colors[2],colors[2],colors[2],colors[2],colors[2],colors[2],colors[2]]
+                [msCols[0],msCols[2],msCols[2],msCols[2],msCols[2],msCols[2],msCols[0]],
+                [msCols[2],msCols[2],msCols[2],msCols[2],msCols[2],msCols[2],msCols[2]],
+                [msCols[2],msCols[2],msCols[0],msCols[0],msCols[2],msCols[2],msCols[2]],
+                [msCols[0],msCols[0],msCols[0],msCols[2],msCols[2],msCols[2],msCols[0]],
+                [msCols[0],msCols[0],msCols[2],msCols[2],msCols[2],msCols[0],msCols[0]],
+                [msCols[0],msCols[2],msCols[2],msCols[2],msCols[0],msCols[0],msCols[0]],
+                [msCols[2],msCols[2],msCols[2],msCols[2],msCols[2],msCols[2],msCols[2]]
             ],[ // [2]: 3
-                [colors[0],colors[3],colors[3],colors[3],colors[3],colors[3],colors[0]],
-                [colors[3],colors[3],colors[3],colors[3],colors[3],colors[3],colors[3]],
-                [colors[3],colors[0],colors[0],colors[0],colors[0],colors[3],colors[3]],
-                [colors[0],colors[0],colors[0],colors[3],colors[3],colors[3],colors[0]],
-                [colors[3],colors[3],colors[0],colors[0],colors[0],colors[3],colors[3]],
-                [colors[3],colors[3],colors[3],colors[3],colors[3],colors[3],colors[3]],
-                [colors[0],colors[3],colors[3],colors[3],colors[3],colors[3],colors[0]]
+                [msCols[0],msCols[3],msCols[3],msCols[3],msCols[3],msCols[3],msCols[0]],
+                [msCols[3],msCols[3],msCols[3],msCols[3],msCols[3],msCols[3],msCols[3]],
+                [msCols[3],msCols[0],msCols[0],msCols[0],msCols[0],msCols[3],msCols[3]],
+                [msCols[0],msCols[0],msCols[0],msCols[3],msCols[3],msCols[3],msCols[0]],
+                [msCols[3],msCols[3],msCols[0],msCols[0],msCols[0],msCols[3],msCols[3]],
+                [msCols[3],msCols[3],msCols[3],msCols[3],msCols[3],msCols[3],msCols[3]],
+                [msCols[0],msCols[3],msCols[3],msCols[3],msCols[3],msCols[3],msCols[0]]
             ],[ // [3]: 4
-                [colors[0],colors[0],colors[0],colors[0],colors[4],colors[4],colors[0]],
-                [colors[0],colors[0],colors[0],colors[4],colors[4],colors[4],colors[0]],
-                [colors[0],colors[0],colors[4],colors[4],colors[4],colors[4],colors[0]],
-                [colors[0],colors[4],colors[4],colors[0],colors[4],colors[4],colors[0]],
-                [colors[4],colors[4],colors[0],colors[0],colors[4],colors[4],colors[4]],
-                [colors[4],colors[4],colors[4],colors[4],colors[4],colors[4],colors[4]],
-                [colors[0],colors[0],colors[0],colors[0],colors[4],colors[4],colors[0]]
+                [msCols[0],msCols[0],msCols[0],msCols[0],msCols[4],msCols[4],msCols[0]],
+                [msCols[0],msCols[0],msCols[0],msCols[4],msCols[4],msCols[4],msCols[0]],
+                [msCols[0],msCols[0],msCols[4],msCols[4],msCols[4],msCols[4],msCols[0]],
+                [msCols[0],msCols[4],msCols[4],msCols[0],msCols[4],msCols[4],msCols[0]],
+                [msCols[4],msCols[4],msCols[0],msCols[0],msCols[4],msCols[4],msCols[4]],
+                [msCols[4],msCols[4],msCols[4],msCols[4],msCols[4],msCols[4],msCols[4]],
+                [msCols[0],msCols[0],msCols[0],msCols[0],msCols[4],msCols[4],msCols[0]]
             ],[ // [4]: 5
-                [colors[5],colors[5],colors[5],colors[5],colors[5],colors[5],colors[5]],
-                [colors[5],colors[5],colors[0],colors[0],colors[0],colors[0],colors[0]],
-                [colors[5],colors[5],colors[0],colors[0],colors[0],colors[0],colors[0]],
-                [colors[5],colors[5],colors[5],colors[5],colors[5],colors[5],colors[5]],
-                [colors[0],colors[0],colors[0],colors[0],colors[0],colors[5],colors[5]],
-                [colors[5],colors[5],colors[0],colors[0],colors[0],colors[5],colors[5]],
-                [colors[0],colors[5],colors[5],colors[5],colors[5],colors[5],colors[0]]
+                [msCols[5],msCols[5],msCols[5],msCols[5],msCols[5],msCols[5],msCols[5]],
+                [msCols[5],msCols[5],msCols[0],msCols[0],msCols[0],msCols[0],msCols[0]],
+                [msCols[5],msCols[5],msCols[0],msCols[0],msCols[0],msCols[0],msCols[0]],
+                [msCols[5],msCols[5],msCols[5],msCols[5],msCols[5],msCols[5],msCols[5]],
+                [msCols[0],msCols[0],msCols[0],msCols[0],msCols[0],msCols[5],msCols[5]],
+                [msCols[5],msCols[5],msCols[0],msCols[0],msCols[0],msCols[5],msCols[5]],
+                [msCols[0],msCols[5],msCols[5],msCols[5],msCols[5],msCols[5],msCols[0]]
             ],[ // [5]: 6
-                [colors[0],colors[6],colors[6],colors[6],colors[6],colors[6],colors[0]],
-                [colors[6],colors[6],colors[0],colors[0],colors[0],colors[6],colors[6]],
-                [colors[6],colors[6],colors[0],colors[0],colors[0],colors[0],colors[0]],
-                [colors[6],colors[6],colors[6],colors[6],colors[6],colors[6],colors[6]],
-                [colors[6],colors[6],colors[0],colors[0],colors[0],colors[6],colors[6]],
-                [colors[6],colors[6],colors[0],colors[0],colors[0],colors[6],colors[6]],
-                [colors[0],colors[6],colors[6],colors[6],colors[6],colors[6],colors[0]]
+                [msCols[0],msCols[6],msCols[6],msCols[6],msCols[6],msCols[6],msCols[0]],
+                [msCols[6],msCols[6],msCols[0],msCols[0],msCols[0],msCols[6],msCols[6]],
+                [msCols[6],msCols[6],msCols[0],msCols[0],msCols[0],msCols[0],msCols[0]],
+                [msCols[6],msCols[6],msCols[6],msCols[6],msCols[6],msCols[6],msCols[6]],
+                [msCols[6],msCols[6],msCols[0],msCols[0],msCols[0],msCols[6],msCols[6]],
+                [msCols[6],msCols[6],msCols[0],msCols[0],msCols[0],msCols[6],msCols[6]],
+                [msCols[0],msCols[6],msCols[6],msCols[6],msCols[6],msCols[6],msCols[0]]
             ],[ // [6]: 7
-                [colors[7],colors[7],colors[7],colors[7],colors[7],colors[7],colors[7]],
-                [colors[7],colors[7],colors[7],colors[7],colors[7],colors[7],colors[7]],
-                [colors[0],colors[0],colors[0],colors[0],colors[7],colors[7],colors[7]],
-                [colors[0],colors[0],colors[0],colors[7],colors[7],colors[7],colors[0]],
-                [colors[0],colors[0],colors[7],colors[7],colors[7],colors[0],colors[0]],
-                [colors[0],colors[7],colors[7],colors[7],colors[0],colors[0],colors[0]],
-                [colors[7],colors[7],colors[7],colors[0],colors[0],colors[0],colors[0]]
+                [msCols[7],msCols[7],msCols[7],msCols[7],msCols[7],msCols[7],msCols[7]],
+                [msCols[7],msCols[7],msCols[7],msCols[7],msCols[7],msCols[7],msCols[7]],
+                [msCols[0],msCols[0],msCols[0],msCols[0],msCols[7],msCols[7],msCols[7]],
+                [msCols[0],msCols[0],msCols[0],msCols[7],msCols[7],msCols[7],msCols[0]],
+                [msCols[0],msCols[0],msCols[7],msCols[7],msCols[7],msCols[0],msCols[0]],
+                [msCols[0],msCols[7],msCols[7],msCols[7],msCols[0],msCols[0],msCols[0]],
+                [msCols[7],msCols[7],msCols[7],msCols[0],msCols[0],msCols[0],msCols[0]]
             ],[ // [7]: 8
-                [colors[0],colors[8],colors[8],colors[8],colors[8],colors[8],colors[0]],
-                [colors[8],colors[8],colors[0],colors[0],colors[0],colors[8],colors[8]],
-                [colors[8],colors[8],colors[0],colors[0],colors[0],colors[8],colors[8]],
-                [colors[0],colors[8],colors[8],colors[8],colors[8],colors[8],colors[0]],
-                [colors[8],colors[8],colors[0],colors[0],colors[0],colors[8],colors[8]],
-                [colors[8],colors[8],colors[0],colors[0],colors[0],colors[8],colors[8]],
-                [colors[0],colors[8],colors[8],colors[8],colors[8],colors[8],colors[0]]
+                [msCols[0],msCols[8],msCols[8],msCols[8],msCols[8],msCols[8],msCols[0]],
+                [msCols[8],msCols[8],msCols[0],msCols[0],msCols[0],msCols[8],msCols[8]],
+                [msCols[8],msCols[8],msCols[0],msCols[0],msCols[0],msCols[8],msCols[8]],
+                [msCols[0],msCols[8],msCols[8],msCols[8],msCols[8],msCols[8],msCols[0]],
+                [msCols[8],msCols[8],msCols[0],msCols[0],msCols[0],msCols[8],msCols[8]],
+                [msCols[8],msCols[8],msCols[0],msCols[0],msCols[0],msCols[8],msCols[8]],
+                [msCols[0],msCols[8],msCols[8],msCols[8],msCols[8],msCols[8],msCols[0]]
             ],[ // [8]: Mine
-                [colors[9],colors[0],colors[0],colors[9],colors[0],colors[0],colors[9]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[9],colors[9],colors[9],colors[9],colors[9],colors[9],colors[9]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[9],colors[0],colors[0],colors[9],colors[0],colors[0],colors[9]]
+                [msCols[9],msCols[0],msCols[0],msCols[9],msCols[0],msCols[0],msCols[9]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[9],msCols[0],msCols[0],msCols[9],msCols[0],msCols[0],msCols[9]]
             ],[ // [9]: Flag
-                [colors[0],colors[0],colors[0],colors[9],colors[9],colors[0],colors[0]],
-                [colors[0],colors[0],colors[10],colors[9],colors[9],colors[0],colors[0]],
-                [colors[0],colors[10],colors[10],colors[9],colors[9],colors[0],colors[0]],
-                [colors[10],colors[10],colors[10],colors[9],colors[9],colors[0],colors[0]],
-                [colors[0],colors[0],colors[0],colors[9],colors[9],colors[0],colors[0]],
-                [colors[0],colors[0],colors[0],colors[9],colors[9],colors[0],colors[0]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[9]]
+                [msCols[0],msCols[0],msCols[0],msCols[9],msCols[9],msCols[0],msCols[0]],
+                [msCols[0],msCols[0],msCols[10],msCols[9],msCols[9],msCols[0],msCols[0]],
+                [msCols[0],msCols[10],msCols[10],msCols[9],msCols[9],msCols[0],msCols[0]],
+                [msCols[10],msCols[10],msCols[10],msCols[9],msCols[9],msCols[0],msCols[0]],
+                [msCols[0],msCols[0],msCols[0],msCols[9],msCols[9],msCols[0],msCols[0]],
+                [msCols[0],msCols[0],msCols[0],msCols[9],msCols[9],msCols[0],msCols[0]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9]]
             ]
         ];
 
@@ -247,49 +249,49 @@
                                 data[y+x+y2+x2+1] = 242;
                                 data[y+x+y2+x2+2] = 204;
                             } else if (intboard[trueY][trueX] == 0 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = colors[0][0];
-                                data[y+x+y2+x2+1] = colors[0][1];
-                                data[y+x+y2+x2+2] = colors[0][2];
+                                data[y+x+y2+x2+0] = msCols[0][0];
+                                data[y+x+y2+x2+1] = msCols[0][1];
+                                data[y+x+y2+x2+2] = msCols[0][2];
                             } else if (intboard[trueY][trueX] == 1 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[0][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[0][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[0][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[0][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[0][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[0][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 2 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[1][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[1][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[1][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[1][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[1][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[1][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 3 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[2][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[2][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[2][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[2][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[2][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[2][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 4 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[3][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[3][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[3][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[3][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[3][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[3][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 5 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[4][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[4][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[4][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[4][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[4][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[4][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 6 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[5][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[5][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[5][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[5][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[5][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[5][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 7 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[6][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[6][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[6][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[6][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[6][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[6][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 8 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[7][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[7][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[7][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[7][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[7][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[7][artY][artX][2];
                             } else if (intboard[trueY][trueX] == 9 && boolboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[8][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[8][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[8][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[8][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[8][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[8][artY][artX][2];
                             } else if (flagboard[trueY][trueX]) {
-                                data[y+x+y2+x2+0] = pixArt[9][artY][artX][0];
-                                data[y+x+y2+x2+1] = pixArt[9][artY][artX][1];
-                                data[y+x+y2+x2+2] = pixArt[9][artY][artX][2];
+                                data[y+x+y2+x2+0] = mineArt[9][artY][artX][0];
+                                data[y+x+y2+x2+1] = mineArt[9][artY][artX][1];
+                                data[y+x+y2+x2+2] = mineArt[9][artY][artX][2];
                             } else {
                                 data[y+x+y2+x2+0] = 215;
                                 data[y+x+y2+x2+1] = 202;
@@ -380,9 +382,9 @@
                                 data[y+x+y2+x2+1] = 242;
                                 data[y+x+y2+x2+2] = 204;
                             } else {
-                                data[y+x+y2+x2+0] = colors[0][0];
-                                data[y+x+y2+x2+1] = colors[0][1];
-                                data[y+x+y2+x2+2] = colors[0][2];
+                                data[y+x+y2+x2+0] = msCols[0][0];
+                                data[y+x+y2+x2+1] = msCols[0][1];
+                                data[y+x+y2+x2+2] = msCols[0][2];
                             }
                             data[y+x+y2+x2+3] = 255;
                         }
@@ -401,33 +403,73 @@
                     flagboard[y][x] = false;
                 }
             }
-            colors[9] = [255,0,0];
-            pixArt[8] = [
-                [colors[9],colors[0],colors[0],colors[9],colors[0],colors[0],colors[9]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[9],colors[9],colors[9],colors[9],colors[9],colors[9],colors[9]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[0],colors[9],colors[9],colors[9],colors[9],colors[9],colors[0]],
-                [colors[9],colors[0],colors[0],colors[9],colors[0],colors[0],colors[9]]
+            msCols[9] = [255,0,0];
+            mineArt[8] = [
+                [msCols[9],msCols[0],msCols[0],msCols[9],msCols[0],msCols[0],msCols[9]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[0],msCols[9],msCols[9],msCols[9],msCols[9],msCols[9],msCols[0]],
+                [msCols[9],msCols[0],msCols[0],msCols[9],msCols[0],msCols[0],msCols[9]]
             ];
             updateBoard();
         }
 
+        // SNAKE CODE
+
+        var headX = 2;
+        var headY = 4;
+        var headDir = 0;
+        
+        var snCols = [
+            [160,80,80], // 0: Perimeter
+            [0,40,0], // 1: Gridlines
+            [20,255,20], // 2: Square color
+            [255,40,50], // 3: Apple Red
+            [150,40,40], // 4: Apple Stem
+            [20,100,100], // 5: Snake Main
+            [10,80,80], // 6: Snake Pattern
+            [0,0,0] // Eyes
+        ];
+
+        var snakeArt = [
+            [
+                [], 
+            ],
+        ];
+
         function snakeBoard() {
             data = boardData.data;
+            var trueX;
+            var trueY;
+            var artX;
+            var artY;
+
             for (let y = 0; y < data.length; y+=6464) {
                 for (let x = 0; x < 1616; x+=16) {
+                    trueX = Math.floor((x-80)/160);
+                    trueY = Math.floor((y-32320)/64640);
+                    artX = (x%160)/16-2;
+                    artY = (y%640)/64-2;
                     for (let y2 = 0; y2 < 6464; y2+=1616) {
                         for (let x2 = 0; x2 < 16; x2+=4) {
-                            if (x%160 == 0 || y%640 == 0) {
-                                data[y+x+y2+x2+0] = 0;
-                                data[y+x+y2+x2+1] = 0;
-                                data[y+x+y2+x2+2] = 0;
+                            if ((x/4 < 20 || x/4 >= 384) || ((y/1616 < 20 || y/1616 >= 384))) {
+                                data[y+x+y2+x2+0] = snCols[0][0];
+                                data[y+x+y2+x2+1] = snCols[0][1];
+                                data[y+x+y2+x2+2] = snCols[0][2];
+                            } else if ((x-80)%160 == 0 || (y-320)%640 == 0) {
+                                data[y+x+y2+x2+0] = snCols[1][0];
+                                data[y+x+y2+x2+1] = snCols[1][1];
+                                data[y+x+y2+x2+2] = snCols[1][2];
+                            } else if (trueX == headX && trueY == headY) {
+                                data[y+x+y2+x2+0] = snCols[5][0];
+                                data[y+x+y2+x2+1] = snCols[5][1];
+                                data[y+x+y2+x2+2] = snCols[5][2];
                             } else {
-                                data[y+x+y2+x2+0] = 20;
-                                data[y+x+y2+x2+1] = 255;
-                                data[y+x+y2+x2+2] = 20;
+                                data[y+x+y2+x2+0] = snCols[2][0];
+                                data[y+x+y2+x2+1] = snCols[2][1];
+                                data[y+x+y2+x2+2] = snCols[2][2];
                             }
                             data[y+x+y2+x2+3] = 255;
                         }
