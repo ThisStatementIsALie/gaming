@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color:#070020;font-family:'Arial Narrow';font-size: 20px"=>
     <head>
         <link rel="stylesheet" href="MainPage.css">
         <title>Main Page</title>
         <body> 
-            The purpose of this website is to publish a multitude of dumb little games.<br><br>
-            Originally, these games had to be launched using the terminal, then the board is a png which updates.<br><br>
-            The games work the exact same way... but now the input and output makes sense. <br><br>
+            <h2>Welcome!</h2>
+            Below this text, there are buttons which change which game the canvas is set to.<br><br>
+            Instructions show up when a game is selected. <br><br>
             Enjoy!<br><br>
         </body>
-        <div class="snakeText">
-            <p id="snakeText">> SNAKE</p>
-        </div>
+        <button id="snakeText" onclick ="snakeTextClick()">> SNAKE</button>
+        <button id="mineText" onclick="mineTextClick()">> MINESWEEPER</button>
         <br>
-        <div class="mineText">
-            <p id="mineText">> MINESWEEPER</p>
-        </div>
+        <p id="desc">No game selected.</p>
         <br>
         <canvas id="canvas" width="404" height="404" style="border:1px solid #000"></canvas>
         <br>
@@ -38,20 +35,23 @@
             }
         }
         
-        document.getElementById("mineText").addEventListener("click", function() {
+        function mineTextClick() {
             if (!gameStarted) {
                 currentGame = "minesweeper";
                 blankSweep();
             }
-            
-        });
+            document.getElementById("desc").innerHTML=
+            "MINESWEEPER<br>The goal of the game is to dig all of the tiles on the board without selecting a mine.<br>Numbers on each tile tell you how many of the 8 directly adjacent spaces are mines.<br>---------<br>KEYBINDS:<br>z - Dig<br>x - Place/Remove flag<br>r - Reset board<br>---------<br>Hover your mouse over a tile and dig to start.<br>If you fail, dig anywhere on the board to reset."
+        };
 
-        document.getElementById("snakeText").addEventListener("click", function() {
+        function snakeTextClick() {
             if (!gameStarted) {
                 currentGame = "snake";
                 snakeBoard();
             }
-        });
+            document.getElementById("desc").innerHTML=
+            "SNAKE<br>The goal of the game is to grow the snake by eating apples until it fills the board.<br>If you run into yourself or the border, you lose.<br>---------<br>KEYBINDS:<br>w/Up-Arrow - Turn to face upward<br>a/Left-Arrow - Turn to face leftward<br>s/Down-Arrow - Turn to face downward<br>d/Right-Arrow - Turn to face rightward<br>r - Reset Game<br>---------<br>Hit any of the keys listed above to start.<br>If you fail, reset the board to play again."
+        };
 
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext("2d");
