@@ -12,5 +12,5 @@ Minesweeper - A 10 x 10 board with 15 mines, fully functional.
 ### In Progress
 Snake - A 9 x 9 board to play Snake Game, in the works.
 ### Planned
-OSU! - Click squares to fill a meter, where the meter depletes faster as time goes on.
+OSU! - Click squares to fill a meter, where the meter depletes faster as time goes on.  
 Battleship - Two boards alternate being shown on one square, and two people compete on the same computer.
