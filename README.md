@@ -1,10 +1,16 @@
-This is the repo I'm using for recreating random games whenever I feel like it.
+# Site of Many a Game
 
-CURRENTLY FINISHED:
-Minesweeper - Upon entering the png path and a starting space, board.png will update with the minesweeper board state. You can enter a tile with "[x] [y] [1 for Dig, 0 for Flag]" with that exact formatting. There is no win condition. QOL updates will likely be added soon.
+A github page for multiple small games such as Minesweeper and Snake. Only Minesweeper is fully functional at the moment, but more will be added in the future.
 
-CURRENTLY MAKING:
-Snake - The simple game of Snake, where you eat as much apples as possible without crashing into yourself. This, sadly, will not be made with a PNG. :(
+Can be found and played at [https://thisstatementisalie.github.io/gaming/MainPage.html](https://thisstatementisalie.github.io/gaming/MainPage.html).
 
-FUTURE PROJECTS:
-Minesweeper Update - A remake of minesweeper with libraries meant for mouse interaction.
+![alt text](https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/hunxwbdrxxpkzzbvbfqz)
+
+##   Games
+### Made
+Minesweeper - A 10 x 10 board with 15 mines, fully functional.
+### In Progress
+Snake - A 9 x 9 board to play Snake Game, in the works.
+### Planned
+OSU! - Click squares to fill a meter, where the meter depletes faster as time goes on.
+Battleship - Two boards alternate being shown on one square, and two people compete on the same computer.
