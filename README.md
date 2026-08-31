@@ -8,7 +8,7 @@ Can be found and played at [https://thisstatementisalie.github.io/gaming/MainPag
 
 ##   Games
 ### Made
-Minesweeper - A 10 x 10 board with 15 mines, fully functional.
+Minesweeper - A 10 x 10 board with 15 mines, fully functional, but not with Mouse1 and Mouse2. Refer to keybinds that show up upon spawning a minesweeper board.
 ### In Progress
 Snake - A 9 x 9 board to play Snake Game, in the works.
 ### Planned
